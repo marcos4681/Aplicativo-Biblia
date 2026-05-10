@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Bíblia Viva - Plataforma Espiritual Completa</title>
+    
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1a237e;
+            --secondary: #283593;
+            --accent: #c5a572;
+            --gold: #FFD700;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text: #212121;
+            --text-secondary: #757575;
+            --border: #e0e0e0;
+            --error: #d32f2f;
+            --success: #388e3c;
+            --gradient-start: #1a237e;
+            --gradient-end: #283593;
+        }
+
+        .dark-mode {
+            --primary: #303f9f;
+            --secondary: #3f51b5;
+            --accent: #ffd700;
+            --gold: #FFD700;
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border: #333333;
+            --gradient-start: #303f9f;
+            --gradient-end: #3f51b5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 20px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .greeting {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-icons i {
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .header-icons i:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        /* Verse of Day */
+        .verse-day {
+            margin: 20px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verse-day::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 120px;
+            opacity: 0.1;
+            font-family: serif;
+        }
+
+        .verse-tag {
+            background: rgba(255,255,255,0.25);
+            padding: 6px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .verse-text {
+            font-size: 18px;
+            line-height: 28px;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .verse-reference {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .verse-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .verse-actions i {
+            padding: 10px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .verse-actions i:hover {
+            transform: scale(1.2);
+        }
+
+        .verse-actions i.liked {
+            color: #ff4444;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px;
+        }
+
+        .action-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .action-card i {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .action-card .label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0 80px;
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 20px;
+            color: var(--text);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 15px;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+            border-top: 1px solid var(--border);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+            background: rgba(197, 165, 114, 0.1);
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Bible Screen */
+        .book-list {
+            padding: 15px;
+        }
+
+        .testament-title {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: bold;
+            margin: 15px 0 10px;
+            padding: 0 15px;
+            letter-spacing: 2px;
+        }
+
+        .book-item {
+            background: var(--surface);
+            padding: 15px;
+            margin: 5px 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .book-item:hover {
+            background: var(--border);
+            transform: translateX(5px);
+        }
+
+        .book-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(26, 35, 126, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .book-chapters {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .book-abbrev {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Chapter Grid */
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .chapter-item {
+            aspect-ratio: 1;
+            background: var(--surface);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+        }
+
+        .chapter-item:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Reading View */
+        .reading-header {
+            background: var(--surface);
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .reading-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .reading-book {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .reading-chapter {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 8px 12px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .verse-container {
+            padding: 20px;
+        }
+
+        .verse {
+            padding: 12px 15px;
+            margin: 5px 0;
+            border-left: 3px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            line-height: 1.8;
+        }
+
+        .verse.selected {
+            border-left-color: var(--accent);
+            background: rgba(197, 165, 114, 0.1);
+        }
+
+        .verse-number {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 8px;
+            vertical-align: super;
+        }
+
+        /* Search */
+        .search-container {
+            padding: 15px;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .search-input-wrapper input {
+            flex: 1;
+            border: none;
+            background: none;
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-btn {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .search-result {
+            background: var(--surface);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .search-reference {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        /* Plans */
+        .plan-card {
+            background: var(--surface);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .plan-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .plan-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .plan-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .plan-duration {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .plan-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .plan-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Church */
+        .church-card {
+            background: var(--surface);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .live-badge {
+            background: #ff0000;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            margin: 15px;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .event-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(26, 35, 126, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+            z-index: 200;
+            transition: bottom 0.3s;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.3);
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .settings-panel.show {
+            bottom: 0;
+        }
+
+        .settings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 199;
+            display: none;
+        }
+
+        .settings-overlay.show {
+            display: block;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .font-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .font-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--background);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            z-index: 300;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        /* Favorites */
+        .favorite-item {
+            background: var(--surface);
+            margin: 10px 15px;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .favorite-text {
+            font-style: italic;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .favorite-ref {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .favorite-note {
+            background: var(--background);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .quick-actions {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .chapter-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+            
+            body {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div>
+                <div class="greeting" id="greeting">Bom dia! ☀️</div>
+                <div class="subtitle">Que a Palavra de Deus ilumine seu dia</div>
+            </div>
+            <div class="header-icons">
+                <i class="fas fa-moon" id="themeToggle" onclick="toggleTheme()"></i>
+                <i class="fas fa-cog" onclick="toggleSettings()"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verse of Day -->
+    <div class="verse-day" id="verseDay">
+        <div class="verse-tag" id="verseTag">AMOR DE DEUS</div>
+        <div class="verse-text" id="verseText">"Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna."</div>
+        <div class="verse-reference">
+            <span id="verseRef">João 3:16</span>
+            <div class="verse-actions">
+                <i class="far fa-heart" onclick="toggleLike(this)"></i>
+                <i class="fas fa-share-alt" onclick="shareVerse()"></i>
+                <i class="far fa-copy" onclick="copyVerse()"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Areas -->
+    <div class="main-content active" id="homeContent">
+        <div class="section-title">📖 Ações Rápidas</div>
+        <div class="quick-actions">
+            <div class="action-card" onclick="switchTab('bible')">
+                <i class="fas fa-book-open" style="color: #4CAF50;"></i>
+                <div class="label">Ler Bíblia</div>
+            </div>
+            <div class="action-card" onclick="switchTab('search')">
+                <i class="fas fa-search" style="color: #2196F3;"></i>
+                <div class="label">Buscar</div>
+            </div>
+            <div class="action-card" onclick="switchTab('plans')">
+                <i class="fas fa-calendar-check" style="color: #FF9800;"></i>
+                <div class="label">Planos</div>
+            </div>
+            <div class="action-card" onclick="viewFavorites()">
+                <i class="fas fa-bookmark" style="color: #E91E63;"></i>
+                <div class="label">Favoritos</div>
+            </div>
+        </div>
+        
+        <div class="section-title">📚 Leitura Recente</div>
+        <div id="recentReadings"></div>
+    </div>
+
+    <div class="main-content" id="bibleContent"></div>
+    <div class="main-content" id="searchContent"></div>
+    <div class="main-content" id="plansContent"></div>
+    <div class="main-content" id="churchContent"></div>
+    <div class="main-content" id="readingContent"></div>
+    <div class="main-content" id="favoritesContent"></div>
+
+    <!-- Settings Overlay -->
+    <div class="settings-overlay" id="settingsOverlay" onclick="toggleSettings()"></div>
+    
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <h3 style="margin-bottom: 20px; color: var(--text);">⚙️ Configurações</h3>
+        
+        <div class="setting-item">
+            <span>🌙 Modo Escuro</span>
+            <div class="font-controls">
+                <button class="font-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <span>🔤 Tamanho da Fonte</span>
+            <div class="font-controls">
+                <button class="font-btn" onclick="changeFontSize(-2)">A-</button>
+                <span id="fontSizeDisplay">16</span>
+                <button class="font-btn" onclick="changeFontSize(2)">A+</button>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <span>📱 Modo Leitura</span>
+            <button class="font-btn" onclick="toggleReadingMode()">
+                <i class="fas fa-book"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home')" data-tab="home">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('bible')" data-tab="bible">
+            <i class="fas fa-bible"></i>
+            <span>Bíblia</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('search')" data-tab="search">
+            <i class="fas fa-search"></i>
+            <span>Buscar</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('plans')" data-tab="plans">
+            <i class="fas fa-calendar"></i>
+            <span>Planos</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('church')" data-tab="church">
+            <i class="fas fa-church"></i>
+            <span>Igreja</span>
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA ============
+        const books = [
+            // Old Testament
+            { id: 'gen', name: 'Gênesis', testament: 'old', chapters: 50, abbrev: 'Gn' },
+            { id: 'exo', name: 'Êxodo', testament: 'old', chapters: 40, abbrev: 'Ex' },
+            { id: 'lev', name: 'Levítico', testament: 'old', chapters: 27, abbrev: 'Lv' },
+            { id: 'num', name: 'Números', testament: 'old', chapters: 36, abbrev: 'Nm' },
+            { id: 'deu', name: 'Deuteronômio', testament: 'old', chapters: 34, abbrev: 'Dt' },
+            { id: 'jos', name: 'Josué', testament: 'old', chapters: 24, abbrev: 'Js' },
+            { id: 'jdg', name: 'Juízes', testament: 'old', chapters: 21, abbrev: 'Jz' },
+            { id: 'rut', name: 'Rute', testament: 'old', chapters: 4, abbrev: 'Rt' },
+            { id: '1sa', name: '1 Samuel', testament: 'old', chapters: 31, abbrev: '1Sm' },
+            { id: '2sa', name: '2 Samuel', testament: 'old', chapters: 24, abbrev: '2Sm' },
+            { id: '1ki', name: '1 Reis', testament: 'old', chapters: 22, abbrev: '1Rs' },
+            { id: '2ki', name: '2 Reis', testament: 'old', chapters: 25, abbrev: '2Rs' },
+            { id: 'psa', name: 'Salmos', testament: 'old', chapters: 150, abbrev: 'Sl' },
+            { id: 'pro', name: 'Provérbios', testament: 'old', chapters: 31, abbrev: 'Pv' },
+            { id: 'isa', name: 'Isaías', testament: 'old', chapters: 66, abbrev: 'Is' },
+            { id: 'jer', name: 'Jeremias', testament: 'old', chapters: 52, abbrev: 'Jr' },
+            { id: 'dan', name: 'Daniel', testament: 'old', chapters: 12, abbrev: 'Dn' },
+            // New Testament
+            { id: 'mat', name: 'Mateus', testament: 'new', chapters: 28, abbrev: 'Mt' },
+            { id: 'mrk', name: 'Marcos', testament: 'new', chapters: 16, abbrev: 'Mc' },
+            { id: 'luk', name: 'Lucas', testament: 'new', chapters: 24, abbrev: 'Lc' },
+            { id: 'jhn', name: 'João', testament: 'new', chapters: 21, abbrev: 'Jo' },
+            { id: 'act', name: 'Atos', testament: 'new', chapters: 28, abbrev: 'At' },
+            { id: 'rom', name: 'Romanos', testament: 'new', chapters: 16, abbrev: 'Rm' },
+            { id: '1co', name: '1 Coríntios', testament: 'new', chapters: 16, abbrev: '1Co' },
+            { id: '2co', name: '2 Coríntios', testament: 'new', chapters: 13, abbrev: '2Co' },
+            { id: 'gal', name: 'Gálatas', testament: 'new', chapters: 6, abbrev: 'Gl' },
+            { id: 'eph', name: 'Efésios', testament: 'new', chapters: 6, abbrev: 'Ef' },
+            { id: 'php', name: 'Filipenses', testament: 'new', chapters: 4, abbrev: 'Fp' },
+            { id: 'rev', name: 'Apocalipse', testament: 'new', chapters: 22, abbrev: 'Ap' },
+        ];
+
+        const dailyVerses = [
+            { text: 'Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.', ref: 'João 3:16', tag: 'AMOR DE DEUS' },
+            { text: 'Tudo posso naquele que me fortalece.', ref: 'Filipenses 4:13', tag: 'FORÇA' },
+            { text: 'O Senhor é o meu pastor; nada me faltará.', ref: 'Salmos 23:1', tag: 'PROVIDÊNCIA' },
+            { text: 'Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará.', ref: 'Salmos 37:5', tag: 'CONFIANÇA' },
+            { text: 'Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.', ref: 'Isaías 41:10', tag: 'CORAGEM' },
+        ];
+
+        // Sample verses database
+        const versesDB = {
+            'Gênesis-1': [
+                'No princípio criou Deus os céus e a terra.',
+                'E a terra era sem forma e vazia; e havia trevas sobre a face do abismo; e o Espírito de Deus se movia sobre a face das águas.',
+                'E disse Deus: Haja luz; e houve luz.',
+                'E viu Deus que era boa a luz; e fez Deus separação entre a luz e as trevas.',
+                'E Deus chamou à luz Dia; e às trevas chamou Noite. E foi a tarde e a manhã, o dia primeiro.',
+            ],
+            'João-3': [
+                'E havia entre os fariseus um homem, chamado Nicodemos, príncipe dos judeus.',
+                'Este foi ter de noite com Jesus, e disse-lhe: Rabi, bem sabemos que és Mestre, vindo de Deus; porque ninguém pode fazer estes sinais que tu fazes, se Deus não for com ele.',
+                'Jesus respondeu, e disse-lhe: Na verdade, na verdade te digo que aquele que não nascer de novo, não pode ver o reino de Deus.',
+                'Disse-lhe Nicodemos: Como pode um homem nascer, sendo velho? Porventura pode tornar a entrar no ventre de sua mãe, e nascer?',
+                'Jesus respondeu: Na verdade, na verdade te digo que aquele que não nascer da água e do Espírito, não pode entrar no reino de Deus.',
+            ],
+        };
+
+        // ============ STATE ============
+        let state = {
+            currentTab: 'home',
+            currentBook: 'Gênesis',
+            currentChapter: 1,
+            favorites: JSON.parse(localStorage.getItem('bibleFavorites') || '[]'),
+            history: JSON.parse(localStorage.getItem('bibleHistory') || '[]'),
+            fontSize: parseInt(localStorage.getItem('bibleFontSize') || '16'),
+            isDark: localStorage.getItem('bibleDarkMode') === 'true',
+            readingMode: false,
+        };
+
+        // ============ INITIALIZATION ============
+        function init() {
+            // Set greeting
+            const hour = new Date().getHours();
+            let greeting = 'Bom dia! ☀️';
+            if (hour >= 12 && hour < 18) greeting = 'Boa tarde! 🌤️';
+            if (hour >= 18) greeting = 'Boa noite! 🌙';
+            document.getElementById('greeting').textContent = greeting;
+
+            // Set daily verse
+            const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+            const verse = dailyVerses[dayOfYear % dailyVerses.length];
+            document.getElementById('verseText').textContent = `"${verse.text}"`;
+            document.getElementById('verseRef').textContent = verse.ref;
+            document.getElementById('verseTag').textContent = verse.tag;
+
+            // Apply theme
+            if (state.isDark) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggle').className = 'fas fa-sun';
+            }
+
+            // Apply font size
+            document.getElementById('fontSizeDisplay').textContent = state.fontSize;
+            document.body.style.fontSize = state.fontSize + 'px';
+
+            // Load initial content
+            loadHomeContent();
+            loadBibleContent();
+            loadSearchContent();
+            loadPlansContent();
+            loadChurchContent();
+        }
+
+        // ============ THEME ============
+        function toggleTheme() {
+            state.isDark = !state.isDark;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('themeToggle').className = state.isDark ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('bibleDarkMode', state.isDark);
+            showToast(state.isDark ? 'Modo escuro ativado 🌙' : 'Modo claro ativado ☀️');
+        }
+
+        function changeFontSize(delta) {
+            state.fontSize = Math.max(12, Math.min(24, state.fontSize + delta));
+            document.body.style.fontSize = state.fontSize + 'px';
+            document.getElementById('fontSizeDisplay').textContent = state.fontSize;
+            localStorage.setItem('bibleFontSize', state.fontSize);
+        }
+
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            const overlay = document.getElementById('settingsOverlay');
+            panel.classList.toggle('show');
+            overlay.classList.toggle('show');
+        }
+
+        function toggleReadingMode() {
+            state.readingMode = !state.readingMode;
+            document.body.style.background = state.readingMode ? '#f5f0e8' : '';
+            showToast('Modo leitura ' + (state.readingMode ? 'ativado' : 'desativado'));
+        }
+
+        // ============ NAVIGATION ============
+        function switchTab(tab) {
+            state.currentTab = tab;
+            
+            // Hide all content
+            document.querySelectorAll('.main-content').forEach(el => el.classList.remove('active'));
+            
+            // Show selected content
+            const contentMap = {
+                'home': 'homeContent',
+                'bible': 'bibleContent',
+                'search': 'searchContent',
+                'plans': 'plansContent',
+                'church': 'churchContent',
+            };
+            
+            if (contentMap[tab]) {
+                document.getElementById(contentMap[tab]).classList.add('active');
+            }
+            
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.dataset.tab === tab) el.classList.add('active');
+            });
+            
+            // Scroll to top
+            document.querySelector('.main-content.active')?.scrollTo(0, 0);
+        }
+
+        // ============ HOME ============
+        function loadHomeContent() {
+            loadRecentReadings();
+        }
+
+        function loadRecentReadings() {
+            const container = document.getElementById('recentReadings');
+            if (state.history.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:20px;">Nenhuma leitura recente</p>';
+                return;
+            }
+            
+            container.innerHTML = state.history.slice(0, 5).map(item => `
+                <div class="book-item" onclick="openBook('${item.book}', ${item.chapter})">
+                    <div class="book-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="book-info">
+                        <div class="book-name">${item.book}</div>
+                        <div style="font-size:12px;color:var(--text-secondary);">Capítulo ${item.chapter}</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            `).join('');
+        }
+
+        // ============ BIBLE ============
+        function loadBibleContent() {
+            const oldTestament = books.filter(b => b.testament === 'old');
+            const newTestament = books.filter(b => b.testament === 'new');
+            
+            document.getElementById('bibleContent').innerHTML = `
+                <div style="padding:15px;">
+                    <input type="text" placeholder="🔍 Buscar livro..." 
+                           style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);"
+                           oninput="filterBooks(this.value)">
+                </div>
+                <div class="book-list" id="bookList">
+                    <div class="testament-title">ANTIGO TESTAMENTO</div>
+                    ${oldTestament.map(b => createBookItem(b)).join('')}
+                    <div class="testament-title">NOVO TESTAMENTO</div>
+                    ${newTestament.map(b => createBookItem(b)).join('')}
+                </div>
+            `;
+        }
+
+        function createBookItem(book) {
+            return `
+                <div class="book-item" onclick="openBook('${book.name}', 1)" data-book="${book.name.toLowerCase()}">
+                    <div class="book-icon"><i class="fas fa-book"></i></div>
+                    <div class="book-info">
+                        <div class="book-name">${book.name}</div>
+                        <div class="book-chapters">${book.chapters} capítulos</div>
+                    </div>
+                    <div class="book-abbrev">${book.abbrev}</div>
+                </div>
+            `;
+        }
+
+        function filterBooks(query) {
+            const items = document.querySelectorAll('#bookList .book-item');
+            items.forEach(item => {
+                const bookName = item.dataset.book;
+                item.style.display = bookName.includes(query.toLowerCase()) ? 'flex' : 'none';
+            });
+        }
+
+        function openBook(bookName, chapter) {
+            state.currentBook = bookName;
+            state.currentChapter = chapter;
+            
+            // Add to history
+            state.history.unshift({ book: bookName, chapter, timestamp: Date.now() });
+            state.history = state.history.slice(0, 20);
+            localStorage.setItem('bibleHistory', JSON.stringify(state.history));
+            
+            loadReadingView();
+            switchTabReading();
+        }
+
+        function switchTabReading() {
+            // Show reading content
+            document.querySelectorAll('.main-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('readingContent').classList.add('active');
+        }
+
+        function loadReadingView() {
+            const key = `${state.currentBook}-${state.currentChapter}`;
+            const verses = versesDB[key] || [
+                'Versículo 1 - Texto de exemplo',
+                'Versículo 2 - Texto de exemplo',
+                'Versículo 3 - Texto de exemplo',
+            ];
+            
+            const book = books.find(b => b.name === state.currentBook);
+            const maxChapters = book ? book.chapters : 1;
+            
+            document.getElementById('readingContent').innerHTML = `
+                <div class="reading-header">
+                    <div class="reading-nav">
+                        <div>
+                            <div class="reading-book">${state.currentBook}</div>
+                            <div class="reading-chapter">Capítulo ${state.currentChapter}</div>
+                        </div>
+                        <div class="nav-buttons">
+                            <button class="nav-btn" onclick="navigateChapter(-1)" ${state.currentChapter <= 1 ? 'disabled' : ''}>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="nav-btn" onclick="viewChapters()">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <button class="nav-btn" onclick="navigateChapter(1)" ${state.currentChapter >= maxChapters ? 'disabled' : ''}>
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <button class="nav-btn" onclick="switchTab('bible')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="verse-container">
+                    ${verses.map((text, i) => `
+                        <div class="verse" onclick="toggleVerseSelection(this, ${i + 1})" data-verse="${i + 1}">
+                            <span class="verse-number">${i + 1}</span>
+                            <span style="font-size:${state.fontSize}px;line-height:1.8;">${text}</span>
+                            <div style="margin-top:5px;display:none;" class="verse-actions-mini">
+                                <i class="far fa-bookmark" onclick="event.stopPropagation();addFavorite(${i + 1}, '${text.replace(/'/g, "\\'")}')" title="Favoritar"></i>
+                                <i class="far fa-copy" onclick="event.stopPropagation();copyText('${text.replace(/'/g, "\\'")}')" title="Copiar"></i>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function navigateChapter(direction) {
+            state.currentChapter += direction;
+            openBook(state.currentBook, state.currentChapter);
+        }
+
+        function viewChapters() {
+            const book = books.find(b => b.name === state.currentBook);
+            if (!book) return;
+            
+            const chapters = Array.from({ length: book.chapters }, (_, i) => i + 1);
+            
+            document.getElementById('readingContent').innerHTML = `
+                <div class="reading-header">
+                    <div class="reading-nav">
+                        <div>
+                            <div class="reading-book">${state.currentBook}</div>
+                            <div class="reading-chapter">Selecione um capítulo</div>
+                        </div>
+                        <button class="nav-btn" onclick="openBook('${state.currentBook}', ${state.currentChapter})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chapter-grid">
+                    ${chapters.map(ch => `
+                        <div class="chapter-item" onclick="openBook('${state.currentBook}', ${ch})">
+                            ${ch}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function toggleVerseSelection(element, verseNum) {
+            element.classList.toggle('selected');
+            const actions = element.querySelector('.verse-actions-mini');
+            if (actions) {
+                actions.style.display = element.classList.contains('selected') ? 'block' : 'none';
+            }
+        }
+
+        // ============ FAVORITES ============
+        function addFavorite(verseNum, text) {
+            const favorite = {
+                id: Date.now(),
+                book: state.currentBook,
+                chapter: state.currentChapter,
+                verse: verseNum,
+                text: text,
+                ref: `${state.currentBook} ${state.currentChapter}:${verseNum}`,
+                date: new Date().toISOString(),
+            };
+            
+            state.favorites.unshift(favorite);
+            localStorage.setItem('bibleFavorites', JSON.stringify(state.favorites));
+            showToast('⭐ Adicionado aos favoritos!');
+        }
+
+        function viewFavorites() {
+            document.querySelectorAll('.main-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('favoritesContent').classList.add('active');
+            
+            if (state.favorites.length === 0) {
+                document.getElementById('favoritesContent').innerHTML = `
+                    <div style="text-align:center;padding:40px;">
+                        <i class="fas fa-bookmark" style="font-size:60px;color:var(--text-secondary);"></i>
+                        <p style="color:var(--text-secondary);margin-top:20px;">Nenhum favorito ainda</p>
+                        <button class="plan-btn" style="width:200px;margin-top:20px;" onclick="switchTab('bible')">Ler Bíblia</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            document.getElementById('favoritesContent').innerHTML = `
+                <div style="padding:15px;">
+                    <h2 style="color:var(--text);margin-bottom:20px;">⭐ Meus Favoritos</h2>
+                    ${state.favorites.map(f => `
+                        <div class="favorite-item">
+                            <div class="favorite-text">"${f.text}"</div>
+                            <div class="favorite-ref">${f.ref}</div>
+                            <button onclick="removeFavorite(${f.id})" style="margin-top:10px;background:var(--error);color:white;border:none;padding:5px 15px;border-radius:5px;cursor:pointer;">
+                                <i class="fas fa-trash"></i> Remover
+                            </button>
+                        </div>
+                    `).join('')}
+                    <button class="plan-btn" style="margin-top:20px;" onclick="switchTab('home')">Voltar</button>
+                </div>
+            `;
+        }
+
+        function removeFavorite(id) {
+            state.favorites = state.favorites.filter(f => f.id !== id);
+            localStorage.setItem('bibleFavorites', JSON.stringify(state.favorites));
+            viewFavorites();
+            showToast('Favorito removido');
+        }
+
+        // ============ SEARCH ============
+        function loadSearchContent() {
+            document.getElementById('searchContent').innerHTML = `
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search" style="color:var(--text-secondary);margin-right:10px;"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar na Bíblia..." 
+                               onkeypress="if(event.key==='Enter') performSearch()">
+                        <button class="search-btn" onclick="performSearch()">Buscar</button>
+                    </div>
+                    <div id="searchResults"></div>
+                </div>
+            `;
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (!query) return;
+            
+            // Simple search simulation
+            const results = [];
+            for (const [key, verses] of Object.entries(versesDB)) {
+                verses.forEach((verse, i) => {
+                    if (verse.toLowerCase().includes(query)) {
+                        const [book, chapter] = key.split('-');
+                        results.push({ book, chapter, verse: i + 1, text: verse });
+                    }
+                });
+            }
+            
+            const container = document.getElementById('searchResults');
+            if (results.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:20px;">Nenhum resultado encontrado</p>';
+            } else {
+                container.innerHTML = results.map(r => `
+                    <div class="search-result" onclick="openBook('${r.book}', ${r.chapter})">
+                        <div class="search-reference">${r.book} ${r.chapter}:${r.verse}</div>
+                        <div>${r.text}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ============ PLANS ============
+        function loadPlansContent() {
+            const plans = [
+                { name: 'Bíblia em 1 Ano', duration: '365 dias', description: 'Leia a Bíblia completa em um ano', icon: 'fa-book-open', color: '#4CAF50' },
+                { name: 'Novo Testamento', duration: '90 dias', description: 'Conheça o Novo Testamento em 3 meses', icon: 'fa-bible', color: '#2196F3' },
+                { name: 'Salmos e Provérbios', duration: '30 dias', description: 'Sabedoria e louvor diários', icon: 'fa-star', color: '#FF9800' },
+                { name: 'Evangelhos', duration: '45 dias', description: 'A vida e ensinamentos de Jesus', icon: 'fa-heart', color: '#E91E63' },
+            ];
+            
+            document.getElementById('plansContent').innerHTML = `
+                <div style="padding:15px;">
+                    <h2 style="color:var(--text);margin-bottom:20px;">📅 Planos de Leitura</h2>
+                    ${plans.map(p => `
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <div class="plan-icon" style="background:${p.color}20;color:${p.color};">
+                                    <i class="fas ${p.icon}"></i>
+                                </div>
+                                <div>
+                                    <div class="plan-name">${p.name}</div>
+                                    <div class="plan-duration">${p.duration}</div>
+                                </div>
+                            </div>
+                            <p style="color:var(--text-secondary);">${p.description}</p>
+                            <button class="plan-btn" onclick="startPlan('${p.name}')">Começar Plano</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function startPlan(planName) {
+            showToast(`✅ Plano "${planName}" iniciado!`);
+        }
+
+        // ============ CHURCH ============
+        function loadChurchContent() {
+            document.getElementById('churchContent').innerHTML = `
+                <div style="padding:15px;">
+                    <div class="live-badge">
+                        <div class="live-dot"></div>
+                        AO VIVO AGORA
+                    </div>
+                    
+                    <div class="church-card">
+                        <h3 style="color:var(--text);margin-bottom:15px;">⛪ Minha Igreja</h3>
+                        <p style="color:var(--text-secondary);margin-bottom:20px;">
+                            Configure sua igreja para receber avisos, eventos e transmissões ao vivo
+                        </p>
+                        <button class="plan-btn">
+                            <i class="fas fa-plus"></i> Configurar Igreja
+                        </button>
+                    </div>
+
+                    <div class="church-card">
+                        <h3 style="color:var(--text);margin-bottom:15px;">📅 Próximos Eventos</h3>
+                        <div class="event-item">
+                            <div class="event-icon"><i class="fas fa-calendar"></i></div>
+                            <div>
+                                <div style="font-weight:600;">Culto de Domingo</div>
+                                <div style="font-size:12px;color:var(--text-secondary);">Domingo, 09:00</div>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-icon"><i class="fas fa-users"></i></div>
+                            <div>
+                                <div style="font-weight:600;">Célula Familiar</div>
+                                <div style="font-size:12px;color:var(--text-secondary);">Quarta, 20:00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="church-card">
+                        <h3 style="color:var(--text);margin-bottom:15px;">🎵 Louvor do Dia</h3>
+                        <div style="text-align:center;padding:20px;">
+                            <i class="fas fa-music" style="font-size:40px;color:var(--accent);"></i>
+                            <p style="margin-top:10px;color:var(--text-secondary);">"Grandioso És Tu"</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============ VERSE ACTIONS ============
+        function toggleLike(icon) {
+            icon.classList.toggle('fas');
+            icon.classList.toggle('far');
+            icon.classList.toggle('liked');
+        }
+
+        function shareVerse() {
+            const text = document.getElementById('verseText').textContent;
+            const ref = document.getElementById('verseRef').textContent;
+            const shareText = `${text} - ${ref}\n\n📖 Compartilhado via Bíblia Viva`;
+            
+            if (navigator.share) {
+                navigator.share({ title: 'Versículo do Dia', text: shareText });
+            } else {
+                copyToClipboard(shareText);
+                showToast('📋 Texto copiado para compartilhar!');
+            }
+        }
+
+        function copyVerse() {
+            const text = document.getElementById('verseText').textContent;
+            const ref = document.getElementById('verseRef').textContent;
+            copyToClipboard(`${text} - ${ref}`);
+            showToast('📋 Versículo copiado!');
+        }
+
+        function copyText(text) {
+            copyToClipboard(text);
+            showToast('📋 Texto copiado!');
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        // ============ TOAST ============
+        function showToast(message) {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        // ============ INIT ============
+        init();
+        loadBibleContent();
+        loadSearchContent();
+        loadPlansContent();
+        loadChurchContent();
+        loadRecentReadings();
+    </script>
+</body>
+</html>
